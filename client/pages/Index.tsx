@@ -139,14 +139,21 @@ export default function Index() {
               <p className="text-gray-500 mt-4 text-sm">
                 Stop overthinking, yaar.
               </p>
+
+              <p className="text-gray-400 mt-2 text-xs">
+                Test ke pehle hi yaad aata hai website ka?
+              </p>
             </div>
           </section>
 
           {/* Quick Features */}
           <section className="container mx-auto px-4 py-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
               Why ProBadha hits different
             </h2>
+            <p className="text-center text-gray-600 mb-12">
+              Bro pad bhi le kabhi kabhi.
+            </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
               {[
@@ -200,8 +207,11 @@ export default function Index() {
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Padh le warna kal phir gaali khayega.
               </h2>
-              <p className="text-xl mb-8 opacity-90">
+              <p className="text-xl mb-4 opacity-90">
                 Chill maar, ProBadha sambhal lega.
+              </p>
+              <p className="text-lg mb-8 opacity-80">
+                Seriously though, we got your back.
               </p>
               <Button 
                 onClick={() => setAppState('quiz')}
@@ -394,9 +404,12 @@ export default function Index() {
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <p className="text-lg text-gray-300 mb-4 flex items-center justify-center gap-2">
+            <p className="text-lg text-gray-300 mb-2 flex items-center justify-center gap-2">
               Made with late nights and too much coffee by ProBadha Team.
               <Coffee className="w-5 h-5 text-orange-400 animate-bounce" />
+            </p>
+            <p className="text-sm text-gray-400 mb-4">
+              Seriously though, hamein neend kam aati hai but tumhara future bright karna hai.
             </p>
 
             {/* Admin Contact Info */}
@@ -404,6 +417,9 @@ export default function Index() {
               <h3 className="text-white font-semibold mb-4 flex items-center justify-center gap-2">
                 <span className="animate-pulse">🔧</span> Admin Contact
               </h3>
+              <p className="text-gray-400 text-xs mb-3">
+                Koi problem ho ya suggestion, directly ping kar do.
+              </p>
               <div className="space-y-2 text-sm text-gray-300">
                 <div className="flex items-center justify-center gap-2">
                   <Mail className="w-4 h-4 text-blue-400" />
@@ -422,25 +438,28 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto text-center">
-            <a
-              href="https://instagram.com/himanshubhatnagar.in"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => alert('Insta abhi active nahi hai bhai, thoda pad le fir scroll maarna.')}
               className="text-gray-400 hover:text-pink-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <Instagram className="w-5 h-5 animate-pulse" />
               Instagram
-            </a>
+            </button>
 
-            <a
-              href="https://discord.gg/himanshubhatnagar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
-            >
-              <MessageSquare className="w-5 h-5 animate-bounce" />
-              Discord
-            </a>
+            <div className="relative group">
+              <a
+                href="https://discord.gg/himanshubhatnagar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
+              >
+                <MessageSquare className="w-5 h-5 animate-bounce" />
+                Discord
+              </a>
+              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                Join karle Discord par, lekin bakchodi karega toh ban ho jayega bro.
+              </div>
+            </div>
 
             <button
               onClick={() => window.location.href = '/privacy-policy'}
