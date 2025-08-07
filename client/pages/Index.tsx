@@ -30,6 +30,8 @@ export default function Index() {
   const [quizAnswers, setQuizAnswers] = useState<{ [key: string]: string }>({});
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [showInstaPopup, setShowInstaPopup] = useState(false);
+  const [showDiscordPopup, setShowDiscordPopup] = useState(false);
 
   const quizQuestions = [
     {
@@ -454,27 +456,20 @@ export default function Index() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto text-center">
             <button
-              onClick={() => alert('Insta abhi active nahi hai bhai, thoda pad le fir scroll maarna.')}
+              onClick={() => setShowInstaPopup(true)}
               className="text-gray-400 hover:text-pink-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <Instagram className="w-5 h-5 animate-pulse" />
               Instagram
             </button>
 
-            <div className="relative group">
-              <a
-                href="https://discord.gg/himanshubhatnagar"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
-              >
-                <MessageSquare className="w-5 h-5 animate-bounce" />
-                Discord
-              </a>
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                Join karle Discord par, lekin bakchodi karega toh ban ho jayega bro.
-              </div>
-            </div>
+            <button
+              onClick={() => setShowDiscordPopup(true)}
+              className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
+            >
+              <MessageSquare className="w-5 h-5 animate-bounce" />
+              Discord
+            </button>
 
             <button
               onClick={() => window.location.href = '/privacy-policy'}
