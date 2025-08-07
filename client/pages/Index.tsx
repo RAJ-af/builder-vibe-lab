@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Brain, 
-  Timer, 
-  MessageCircle, 
-  Zap, 
+import {
+  Brain,
+  Timer,
+  MessageCircle,
+  Zap,
   Trophy,
   BookOpen,
   Users,
@@ -20,58 +20,79 @@ import {
   Sparkles,
   Target,
   Coffee,
-  Heart
+  Heart,
 } from "lucide-react";
 
-type AppState = 'landing' | 'quiz' | 'result' | 'login';
+type AppState = "landing" | "quiz" | "result" | "login";
 
 export default function Index() {
-  const [appState, setAppState] = useState<AppState>('landing');
+  const [appState, setAppState] = useState<AppState>("landing");
   const [quizAnswers, setQuizAnswers] = useState<{ [key: string]: string }>({});
-  const [selectedAnswer, setSelectedAnswer] = useState<string>('');
+  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showInstaPopup, setShowInstaPopup] = useState(false);
   const [showDiscordPopup, setShowDiscordPopup] = useState(false);
 
   const quizQuestions = [
     {
-      id: 'seriousness',
-      question: 'How serious are you about studies?',
-      options: ['Just passing lol', 'Mid serious', 'All in bro']
+      id: "seriousness",
+      question: "How serious are you about studies?",
+      options: ["Just passing lol", "Mid serious", "All in bro"],
     },
     {
-      id: 'vibe',
-      question: 'Pick your vibe:',
-      options: ['Chill and Learn', 'Hardcore Grind']
-    }
+      id: "vibe",
+      question: "Pick your vibe:",
+      options: ["Chill and Learn", "Hardcore Grind"],
+    },
   ];
 
   const handleQuizAnswer = (answer: string) => {
     setSelectedAnswer(answer);
-    setQuizAnswers({ ...quizAnswers, [quizQuestions[currentQuestion].id]: answer });
+    setQuizAnswers({
+      ...quizAnswers,
+      [quizQuestions[currentQuestion].id]: answer,
+    });
   };
 
   const handleNextQuestion = () => {
     if (currentQuestion < quizQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer(quizAnswers[quizQuestions[currentQuestion + 1].id] || '');
+      setSelectedAnswer(
+        quizAnswers[quizQuestions[currentQuestion + 1].id] || "",
+      );
     } else {
-      setAppState('result');
+      setAppState("result");
     }
   };
 
   const getResultLevel = () => {
     const seriousness = quizAnswers.seriousness;
     const vibe = quizAnswers.vibe;
-    
-    if (seriousness === 'All in bro' && vibe === 'Hardcore Grind') {
-      return { level: 5, title: 'Level 5 Beast Mode', desc: 'Bro you\'re absolutely mental about studying. Respect.' };
-    } else if (seriousness === 'All in bro' || vibe === 'Hardcore Grind') {
-      return { level: 4, title: 'Level 4 Grinder', desc: 'You mean business. Time to unlock your potential.' };
-    } else if (seriousness === 'Mid serious') {
-      return { level: 3, title: 'Level 3 Hustler', desc: 'Solid vibes. You know what you want.' };
+
+    if (seriousness === "All in bro" && vibe === "Hardcore Grind") {
+      return {
+        level: 5,
+        title: "Level 5 Beast Mode",
+        desc: "Bro you're absolutely mental about studying. Respect.",
+      };
+    } else if (seriousness === "All in bro" || vibe === "Hardcore Grind") {
+      return {
+        level: 4,
+        title: "Level 4 Grinder",
+        desc: "You mean business. Time to unlock your potential.",
+      };
+    } else if (seriousness === "Mid serious") {
+      return {
+        level: 3,
+        title: "Level 3 Hustler",
+        desc: "Solid vibes. You know what you want.",
+      };
     } else {
-      return { level: 2, title: 'Level 2 Chill Learner', desc: 'No pressure, just progress. Let\'s make it fun.' };
+      return {
+        level: 2,
+        title: "Level 2 Chill Learner",
+        desc: "No pressure, just progress. Let's make it fun.",
+      };
     }
   };
 
@@ -89,11 +110,17 @@ export default function Index() {
             <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               ProBadha
             </div>
-            
+
             <div className="hidden md:flex items-center space-x-8">
-              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">About</button>
-              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Features</button>
-              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">Contact</button>
+              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                About
+              </button>
+              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                Features
+              </button>
+              <button className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+                Contact
+              </button>
               <Button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-6 py-2 rounded-full">
                 Login
               </Button>
@@ -103,16 +130,15 @@ export default function Index() {
       </nav>
 
       {/* Landing Page */}
-      {appState === 'landing' && (
+      {appState === "landing" && (
         <>
           {/* Hero Section */}
           <section className="container mx-auto px-4 py-16 md:py-24 text-center">
             <div className="max-w-4xl mx-auto">
-            <div className="inline-block bg-gradient-to-r from-peach-400 to-purple-400 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4 transform -rotate-1 shadow-lg animate-bounce">
-              AI-Powered Study Buddy
-            </div>
+              <div className="inline-block bg-gradient-to-r from-peach-400 to-purple-400 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4 transform -rotate-1 shadow-lg animate-bounce">
+                AI-Powered Study Buddy
+              </div>
 
-              
               <h1 className="text-5xl md:text-7xl font-black text-gray-800 mb-6 leading-tight animate-fade-in-up">
                 Your AI Study Buddy.
                 <br />
@@ -120,22 +146,22 @@ export default function Index() {
                   No Stress, Just Smarts.
                 </span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl text-gray-600 mb-4 font-medium">
                 Personalized study plans that don't suck.
               </p>
               <p className="text-gray-500 mb-8">
                 Actually useful stuff, not some random gyaan.
               </p>
-              
+
               <Button
-                onClick={() => setAppState('quiz')}
+                onClick={() => setAppState("quiz")}
                 className="bg-gradient-to-r from-purple-500 via-blue-500 to-peach-400 hover:from-purple-600 hover:via-blue-600 hover:to-peach-500 text-white px-12 py-6 text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 font-bold animate-bounce hover:animate-none"
               >
                 <Sparkles className="w-6 h-6 mr-3 animate-spin" />
                 Take the 1-Min Quiz & Flex Your Brain
               </Button>
-              
+
               <p className="text-gray-500 mt-4 text-sm">
                 Stop overthinking, yaar.
               </p>
@@ -154,46 +180,53 @@ export default function Index() {
             <p className="text-center text-gray-600 mb-12">
               Bro pad bhi le kabhi kabhi.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
               {[
                 {
                   icon: <MessageCircle className="w-8 h-8 animate-pulse" />,
-                  title: 'Ask AI Anything',
-                  desc: 'in seconds',
-                  gradient: 'from-purple-400 to-blue-400'
+                  title: "Ask AI Anything",
+                  desc: "in seconds",
+                  gradient: "from-purple-400 to-blue-400",
                 },
                 {
                   icon: <BookOpen className="w-8 h-8 animate-bounce" />,
-                  title: 'Instant Notes',
-                  desc: 'and Summaries',
-                  gradient: 'from-blue-400 to-cyan-400'
+                  title: "Instant Notes",
+                  desc: "and Summaries",
+                  gradient: "from-blue-400 to-cyan-400",
                 },
                 {
                   icon: <Trophy className="w-8 h-8 animate-spin" />,
-                  title: 'Daily XP and',
-                  desc: 'Leaderboards',
-                  gradient: 'from-cyan-400 to-green-400'
+                  title: "Daily XP and",
+                  desc: "Leaderboards",
+                  gradient: "from-cyan-400 to-green-400",
                 },
                 {
                   icon: <Timer className="w-8 h-8 animate-pulse" />,
-                  title: 'Pomodoro',
-                  desc: 'Focus Timer',
-                  gradient: 'from-green-400 to-yellow-400'
+                  title: "Pomodoro",
+                  desc: "Focus Timer",
+                  gradient: "from-green-400 to-yellow-400",
                 },
                 {
                   icon: <Users className="w-8 h-8 animate-bounce" />,
-                  title: 'Memes and Chill',
-                  desc: 'Community',
-                  gradient: 'from-yellow-400 to-peach-400'
-                }
+                  title: "Memes and Chill",
+                  desc: "Community",
+                  gradient: "from-yellow-400 to-peach-400",
+                },
               ].map((feature, index) => (
-                <Card key={index} className="group hover:scale-105 transition-all duration-300 border-0 shadow-lg hover:shadow-xl">
+                <Card
+                  key={index}
+                  className="group hover:scale-105 transition-all duration-300 border-0 shadow-lg hover:shadow-xl"
+                >
                   <CardContent className="p-6 text-center">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 text-white group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 text-white group-hover:scale-110 transition-transform duration-300`}
+                    >
                       {feature.icon}
                     </div>
-                    <h3 className="font-bold text-gray-800 mb-1">{feature.title}</h3>
+                    <h3 className="font-bold text-gray-800 mb-1">
+                      {feature.title}
+                    </h3>
                     <p className="text-sm text-gray-600">{feature.desc}</p>
                   </CardContent>
                 </Card>
@@ -213,8 +246,8 @@ export default function Index() {
               <p className="text-lg mb-8 opacity-80">
                 Seriously though, we got your back.
               </p>
-              <Button 
-                onClick={() => setAppState('quiz')}
+              <Button
+                onClick={() => setAppState("quiz")}
                 className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-4 text-lg rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Let's Get Started
@@ -226,7 +259,7 @@ export default function Index() {
       )}
 
       {/* Quiz Section */}
-      {appState === 'quiz' && (
+      {appState === "quiz" && (
         <section className="container mx-auto px-4 py-16">
           <div className="max-w-2xl mx-auto">
             <Card className="shadow-2xl border-0 overflow-hidden">
@@ -235,63 +268,73 @@ export default function Index() {
                   {quizQuestions[currentQuestion].question}
                 </CardTitle>
                 <p className="text-purple-100 text-sm mt-2">
-                  {currentQuestion === 0 ? 'Honest rehna bhai, koi judge nahi kar raha.' : 'Almost done, bas ek aur sawal.'}
+                  {currentQuestion === 0
+                    ? "Honest rehna bhai, koi judge nahi kar raha."
+                    : "Almost done, bas ek aur sawal."}
                 </p>
                 <div className="flex justify-center mt-4">
                   {quizQuestions.map((_, index) => (
-                    <div 
+                    <div
                       key={index}
                       className={`w-3 h-3 rounded-full mx-1 ${
-                        index <= currentQuestion ? 'bg-white' : 'bg-white/40'
+                        index <= currentQuestion ? "bg-white" : "bg-white/40"
                       }`}
                     />
                   ))}
                 </div>
               </CardHeader>
-              
+
               <CardContent className="p-8">
                 <div className="space-y-4 mb-8">
-                  {quizQuestions[currentQuestion].options.map((option, index) => (
-                    <div 
-                      key={index}
-                      className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-300 ${
-                        selectedAnswer === option 
-                          ? 'border-purple-500 bg-purple-50 shadow-lg' 
-                          : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
-                      }`}
-                      onClick={() => handleQuizAnswer(option)}
-                    >
-                      <div className="flex items-center">
-                        <div className={`w-5 h-5 rounded-full border-2 mr-4 ${
-                          selectedAnswer === option 
-                            ? 'border-purple-500 bg-purple-500' 
-                            : 'border-gray-300'
-                        }`}>
-                          {selectedAnswer === option && (
-                            <div className="w-full h-full rounded-full bg-white m-0.5"></div>
-                          )}
+                  {quizQuestions[currentQuestion].options.map(
+                    (option, index) => (
+                      <div
+                        key={index}
+                        className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-300 ${
+                          selectedAnswer === option
+                            ? "border-purple-500 bg-purple-50 shadow-lg"
+                            : "border-gray-200 hover:border-purple-300 hover:bg-gray-50"
+                        }`}
+                        onClick={() => handleQuizAnswer(option)}
+                      >
+                        <div className="flex items-center">
+                          <div
+                            className={`w-5 h-5 rounded-full border-2 mr-4 ${
+                              selectedAnswer === option
+                                ? "border-purple-500 bg-purple-500"
+                                : "border-gray-300"
+                            }`}
+                          >
+                            {selectedAnswer === option && (
+                              <div className="w-full h-full rounded-full bg-white m-0.5"></div>
+                            )}
+                          </div>
+                          <span className="text-lg font-medium text-gray-800">
+                            {option}
+                          </span>
                         </div>
-                        <span className="text-lg font-medium text-gray-800">{option}</span>
                       </div>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
-                
+
                 <div className="flex justify-between items-center">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setAppState('landing')}
+                  <Button
+                    variant="outline"
+                    onClick={() => setAppState("landing")}
                     className="px-6 py-3"
                   >
                     Back
                   </Button>
-                  
-                  <Button 
+
+                  <Button
                     onClick={handleNextQuestion}
                     disabled={!selectedAnswer}
                     className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3 rounded-xl"
                   >
-                    {currentQuestion === quizQuestions.length - 1 ? 'Show My Plan' : 'Next'}
+                    {currentQuestion === quizQuestions.length - 1
+                      ? "Show My Plan"
+                      : "Next"}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
@@ -302,7 +345,7 @@ export default function Index() {
       )}
 
       {/* Result Section */}
-      {appState === 'result' && (
+      {appState === "result" && (
         <section className="container mx-auto px-4 py-16">
           <div className="max-w-2xl mx-auto">
             <Card className="shadow-2xl border-0 overflow-hidden">
@@ -318,7 +361,7 @@ export default function Index() {
                   Sach mein, ye level solid hai. Ab bas maintain karna hai.
                 </p>
               </CardHeader>
-              
+
               <CardContent className="p-8 text-center">
                 <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl p-6 mb-8">
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
@@ -334,18 +377,18 @@ export default function Index() {
                     <div>✅ Community access</div>
                   </div>
                 </div>
-                
-                <Button 
-                  onClick={() => setAppState('login')}
+
+                <Button
+                  onClick={() => setAppState("login")}
                   className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-12 py-4 text-xl rounded-2xl shadow-xl w-full mb-4 font-bold"
                 >
                   <Target className="w-6 h-6 mr-3" />
                   Unlock My Free Plan
                 </Button>
-                
-                <Button 
-                  variant="outline" 
-                  onClick={() => setAppState('landing')}
+
+                <Button
+                  variant="outline"
+                  onClick={() => setAppState("landing")}
                   className="w-full px-8 py-3"
                 >
                   Take Quiz Again
@@ -357,7 +400,7 @@ export default function Index() {
       )}
 
       {/* Login Section */}
-      {appState === 'login' && (
+      {appState === "login" && (
         <section className="container mx-auto px-4 py-16">
           <div className="max-w-md mx-auto">
             <Card className="shadow-2xl border-0 overflow-hidden">
@@ -369,38 +412,38 @@ export default function Index() {
                   One click mein ho jayega, tension mat le.
                 </p>
               </CardHeader>
-              
+
               <CardContent className="p-8">
                 <div className="space-y-4">
-                  <Button 
-                    onClick={() => handleLogin('WhatsApp')}
+                  <Button
+                    onClick={() => handleLogin("WhatsApp")}
                     className="w-full bg-green-500 hover:bg-green-600 text-white py-6 text-lg rounded-xl shadow-lg flex items-center justify-center gap-4"
                   >
                     <Phone className="w-6 h-6" />
                     Continue with WhatsApp
                   </Button>
-                  
-                  <Button 
-                    onClick={() => handleLogin('Telegram')}
+
+                  <Button
+                    onClick={() => handleLogin("Telegram")}
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6 text-lg rounded-xl shadow-lg flex items-center justify-center gap-4"
                   >
                     <MessageSquare className="w-6 h-6" />
                     Continue with Telegram
                   </Button>
-                  
-                  <Button 
-                    onClick={() => handleLogin('Google')}
+
+                  <Button
+                    onClick={() => handleLogin("Google")}
                     className="w-full bg-red-500 hover:bg-red-600 text-white py-6 text-lg rounded-xl shadow-lg flex items-center justify-center gap-4"
                   >
                     <Mail className="w-6 h-6" />
                     Continue with Google
                   </Button>
                 </div>
-                
+
                 <div className="mt-8 text-center">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setAppState('result')}
+                  <Button
+                    variant="outline"
+                    onClick={() => setAppState("result")}
                     className="px-6 py-3"
                   >
                     Back to Results
@@ -421,7 +464,8 @@ export default function Index() {
               <Coffee className="w-5 h-5 text-orange-400 animate-bounce" />
             </p>
             <p className="text-sm text-gray-400 mb-4">
-              Seriously though, hamein neend kam aati hai but tumhara future bright karna hai.
+              Seriously though, hamein neend kam aati hai but tumhara future
+              bright karna hai.
             </p>
 
             {/* Admin Contact Info */}
@@ -435,13 +479,19 @@ export default function Index() {
               <div className="space-y-2 text-sm text-gray-300">
                 <div className="flex items-center justify-center gap-2">
                   <Mail className="w-4 h-4 text-blue-400" />
-                  <a href="mailto:himanshubhatnagar.in@gmail.com" className="hover:text-white transition-colors">
+                  <a
+                    href="mailto:himanshubhatnagar.in@gmail.com"
+                    className="hover:text-white transition-colors"
+                  >
                     himanshubhatnagar.in@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center justify-center gap-2">
                   <Phone className="w-4 h-4 text-green-400" />
-                  <a href="tel:7011476556" className="hover:text-white transition-colors">
+                  <a
+                    href="tel:7011476556"
+                    className="hover:text-white transition-colors"
+                  >
                     +91 7011476556
                   </a>
                 </div>
@@ -467,7 +517,7 @@ export default function Index() {
             </button>
 
             <button
-              onClick={() => window.location.href = '/privacy-policy'}
+              onClick={() => (window.location.href = "/privacy-policy")}
               className="text-gray-400 hover:text-green-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <FileText className="w-5 h-5" />
@@ -475,14 +525,14 @@ export default function Index() {
             </button>
 
             <button
-              onClick={() => console.log('Contact Us')}
+              onClick={() => console.log("Contact Us")}
               className="text-gray-400 hover:text-purple-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <Mail className="w-5 h-5" />
               Contact Us
             </button>
           </div>
-          
+
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
             <p className="text-gray-500 flex items-center justify-center gap-2">
               © 2024 ProBadha. Built with
@@ -515,7 +565,8 @@ export default function Index() {
 
               <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-4 mb-6">
                 <p className="text-sm text-gray-700">
-                  Studies ke baad Instagram chalayenge. Abhi focus kar apne goals pe.
+                  Studies ke baad Instagram chalayenge. Abhi focus kar apne
+                  goals pe.
                 </p>
               </div>
 
@@ -530,7 +581,7 @@ export default function Index() {
                   variant="outline"
                   onClick={() => {
                     setShowInstaPopup(false);
-                    setAppState('quiz');
+                    setAppState("quiz");
                   }}
                   className="flex-1 border-2 border-purple-300 text-purple-600 hover:bg-purple-50 rounded-xl py-3"
                 >
@@ -556,11 +607,14 @@ export default function Index() {
               </h3>
 
               <p className="text-lg text-gray-600 mb-4 leading-relaxed">
-                Join karle Discord par, lekin bakchodi karega toh ban ho jayega bro.
+                Join karle Discord par, lekin bakchodi karega toh ban ho jayega
+                bro.
               </p>
 
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-6">
-                <h4 className="font-semibold text-gray-800 mb-2">Quick Rules:</h4>
+                <h4 className="font-semibold text-gray-800 mb-2">
+                  Quick Rules:
+                </h4>
                 <ul className="text-sm text-gray-700 text-left space-y-1">
                   <li>• Respectful rehna</li>
                   <li>• Study discussions welcome</li>
@@ -579,7 +633,7 @@ export default function Index() {
                 </Button>
                 <Button
                   onClick={() => {
-                    window.open('https://discord.gg/v2JFGwED', '_blank');
+                    window.open("https://discord.gg/v2JFGwED", "_blank");
                     setShowDiscordPopup(false);
                   }}
                   className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl py-3"
