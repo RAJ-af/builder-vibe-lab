@@ -106,14 +106,20 @@ export default function Index() {
           {/* Hero Section */}
           <section className="container mx-auto px-4 py-16 md:py-24 text-center">
             <div className="max-w-4xl mx-auto">
-              <div className="inline-block bg-gradient-to-r from-peach-400 to-purple-400 text-white px-6 py-2 rounded-full text-sm font-semibold mb-6 transform -rotate-1 shadow-lg">
-                AI-Powered Study Buddy
-              </div>
+            <div className="inline-block bg-gradient-to-r from-peach-400 to-purple-400 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4 transform -rotate-1 shadow-lg animate-bounce">
+              AI-Powered Study Buddy
+            </div>
+
+            <div className="bg-white/90 backdrop-blur-sm rounded-xl px-6 py-3 mb-6 inline-block shadow-lg animate-pulse">
+              <p className="text-sm font-medium text-gray-700">
+                🏫 <span className="text-purple-600 font-semibold">Lal Chand Sharma Higher Secondary School</span>
+              </p>
+            </div>
               
-              <h1 className="text-5xl md:text-7xl font-black text-gray-800 mb-6 leading-tight">
+              <h1 className="text-5xl md:text-7xl font-black text-gray-800 mb-6 leading-tight animate-fade-in-up">
                 Your AI Study Buddy.
                 <br />
-                <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-pulse">
                   No Stress, Just Smarts.
                 </span>
               </h1>
@@ -122,11 +128,11 @@ export default function Index() {
                 Personalized study plans that don't suck.
               </p>
               
-              <Button 
+              <Button
                 onClick={() => setAppState('quiz')}
-                className="bg-gradient-to-r from-purple-500 via-blue-500 to-peach-400 hover:from-purple-600 hover:via-blue-600 hover:to-peach-500 text-white px-12 py-6 text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 font-bold"
+                className="bg-gradient-to-r from-purple-500 via-blue-500 to-peach-400 hover:from-purple-600 hover:via-blue-600 hover:to-peach-500 text-white px-12 py-6 text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 font-bold animate-bounce hover:animate-none"
               >
-                <Sparkles className="w-6 h-6 mr-3" />
+                <Sparkles className="w-6 h-6 mr-3 animate-spin" />
                 Take the 1-Min Quiz & Flex Your Brain
               </Button>
               
@@ -145,31 +151,31 @@ export default function Index() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
               {[
                 {
-                  icon: <MessageCircle className="w-8 h-8" />,
+                  icon: <MessageCircle className="w-8 h-8 animate-pulse" />,
                   title: 'Ask AI Anything',
                   desc: 'in seconds',
                   gradient: 'from-purple-400 to-blue-400'
                 },
                 {
-                  icon: <BookOpen className="w-8 h-8" />,
+                  icon: <BookOpen className="w-8 h-8 animate-bounce" />,
                   title: 'Instant Notes',
                   desc: 'and Summaries',
                   gradient: 'from-blue-400 to-cyan-400'
                 },
                 {
-                  icon: <Trophy className="w-8 h-8" />,
+                  icon: <Trophy className="w-8 h-8 animate-spin" />,
                   title: 'Daily XP and',
                   desc: 'Leaderboards',
                   gradient: 'from-cyan-400 to-green-400'
                 },
                 {
-                  icon: <Timer className="w-8 h-8" />,
+                  icon: <Timer className="w-8 h-8 animate-pulse" />,
                   title: 'Pomodoro',
                   desc: 'Focus Timer',
                   gradient: 'from-green-400 to-yellow-400'
                 },
                 {
-                  icon: <Users className="w-8 h-8" />,
+                  icon: <Users className="w-8 h-8 animate-bounce" />,
                   title: 'Memes and Chill',
                   desc: 'Community',
                   gradient: 'from-yellow-400 to-peach-400'
@@ -390,38 +396,63 @@ export default function Index() {
           <div className="text-center mb-8">
             <p className="text-lg text-gray-300 mb-4 flex items-center justify-center gap-2">
               Made with late nights and too much coffee by ProBadha Team.
-              <Coffee className="w-5 h-5 text-orange-400" />
+              <Coffee className="w-5 h-5 text-orange-400 animate-bounce" />
             </p>
+
+            {/* Admin Contact Info */}
+            <div className="bg-gray-800 rounded-xl p-6 mb-6 max-w-md mx-auto">
+              <h3 className="text-white font-semibold mb-4 flex items-center justify-center gap-2">
+                <span className="animate-pulse">🔧</span> Admin Contact
+              </h3>
+              <div className="space-y-2 text-sm text-gray-300">
+                <div className="flex items-center justify-center gap-2">
+                  <Mail className="w-4 h-4 text-blue-400" />
+                  <a href="mailto:himanshubhatnagar.in@gmail.com" className="hover:text-white transition-colors">
+                    himanshubhatnagar.in@gmail.com
+                  </a>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Phone className="w-4 h-4 text-green-400" />
+                  <a href="tel:7011476556" className="hover:text-white transition-colors">
+                    +91 7011476556
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto text-center">
-            <button 
-              onClick={() => console.log('Instagram')}
-              className="text-gray-400 hover:text-pink-400 transition-colors flex items-center justify-center gap-2 font-medium"
+            <a
+              href="https://instagram.com/himanshubhatnagar.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-pink-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
-              <Instagram className="w-5 h-5" />
+              <Instagram className="w-5 h-5 animate-pulse" />
               Instagram
-            </button>
-            
-            <button 
-              onClick={() => console.log('Discord')}
-              className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium"
+            </a>
+
+            <a
+              href="https://discord.gg/himanshubhatnagar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-blue-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
-              <MessageSquare className="w-5 h-5" />
+              <MessageSquare className="w-5 h-5 animate-bounce" />
               Discord
-            </button>
-            
-            <button 
+            </a>
+
+            <button
               onClick={() => console.log('Privacy Policy')}
-              className="text-gray-400 hover:text-green-400 transition-colors flex items-center justify-center gap-2 font-medium"
+              className="text-gray-400 hover:text-green-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <FileText className="w-5 h-5" />
               Privacy Policy
             </button>
-            
-            <button 
+
+            <button
               onClick={() => console.log('Contact Us')}
-              className="text-gray-400 hover:text-purple-400 transition-colors flex items-center justify-center gap-2 font-medium"
+              className="text-gray-400 hover:text-purple-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <Mail className="w-5 h-5" />
               Contact Us
