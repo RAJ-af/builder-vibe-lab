@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   BookOpen, 
   Brain, 
@@ -28,594 +32,788 @@ import {
   Menu,
   X,
   Clock,
-  Eye
+  Eye,
+  Home,
+  Info,
+  PhoneCall,
+  Mail,
+  User,
+  Phone,
+  Send,
+  RotateCcw
 } from "lucide-react";
 
+type TestState = 'landing' | 'testing' | 'result' | 'registration';
+type Level = 'Elementary' | 'Pre-Intermediate' | 'Intermediate' | 'Upper-Intermediate' | 'Advanced' | 'Proficient';
+
+interface Question {
+  id: number;
+  question: string;
+  options: string[];
+  correct: number;
+  level: Level;
+}
+
+const questions: Question[] = [
+  {
+    id: 1,
+    question: "_____ name's Kate. She's from Paris.",
+    options: ["Her", "His", "She"],
+    correct: 0,
+    level: "Elementary"
+  },
+  {
+    id: 2,
+    question: "I _____ a student.",
+    options: ["am", "is", "are"],
+    correct: 0,
+    level: "Elementary"
+  },
+  {
+    id: 3,
+    question: "Where _____ you from?",
+    options: ["are", "is", "do"],
+    correct: 0,
+    level: "Elementary"
+  },
+  {
+    id: 4,
+    question: "She _____ English and French.",
+    options: ["speak", "speaks", "speaking"],
+    correct: 1,
+    level: "Elementary"
+  },
+  {
+    id: 5,
+    question: "I _____ television every evening.",
+    options: ["watch", "watches", "watching"],
+    correct: 0,
+    level: "Elementary"
+  },
+  {
+    id: 6,
+    question: "_____ he British? No, he _____.",
+    options: ["Is / isn't", "Are / aren't", "Do / don't"],
+    correct: 0,
+    level: "Pre-Intermediate"
+  },
+  {
+    id: 7,
+    question: "I _____ breakfast at 8 o'clock every morning.",
+    options: ["have", "has", "having"],
+    correct: 0,
+    level: "Pre-Intermediate"
+  },
+  {
+    id: 8,
+    question: "She _____ to work by bus.",
+    options: ["go", "goes", "going"],
+    correct: 1,
+    level: "Pre-Intermediate"
+  },
+  {
+    id: 9,
+    question: "_____ do you live? In London.",
+    options: ["What", "Where", "Who"],
+    correct: 1,
+    level: "Pre-Intermediate"
+  },
+  {
+    id: 10,
+    question: "I _____ like coffee. I prefer tea.",
+    options: ["don't", "doesn't", "am not"],
+    correct: 0,
+    level: "Pre-Intermediate"
+  },
+  {
+    id: 11,
+    question: "If I _____ you, I would accept the offer.",
+    options: ["am", "was", "were"],
+    correct: 2,
+    level: "Intermediate"
+  },
+  {
+    id: 12,
+    question: "She has _____ lived in three different countries.",
+    options: ["already", "yet", "still"],
+    correct: 0,
+    level: "Intermediate"
+  },
+  {
+    id: 13,
+    question: "The report _____ by tomorrow morning.",
+    options: ["must finish", "must be finished", "must finishing"],
+    correct: 1,
+    level: "Intermediate"
+  },
+  {
+    id: 14,
+    question: "I wish I _____ speak French fluently.",
+    options: ["can", "could", "will"],
+    correct: 1,
+    level: "Intermediate"
+  },
+  {
+    id: 15,
+    question: "_____ the weather was bad, we decided to go out.",
+    options: ["Although", "Because", "Since"],
+    correct: 0,
+    level: "Upper-Intermediate"
+  },
+  {
+    id: 16,
+    question: "She's been working here _____ five years.",
+    options: ["since", "for", "during"],
+    correct: 1,
+    level: "Upper-Intermediate"
+  },
+  {
+    id: 17,
+    question: "I'd rather you _____ smoke in here.",
+    options: ["don't", "didn't", "won't"],
+    correct: 1,
+    level: "Upper-Intermediate"
+  },
+  {
+    id: 18,
+    question: "Had I known about the traffic, I _____ earlier.",
+    options: ["would leave", "would have left", "will leave"],
+    correct: 1,
+    level: "Advanced"
+  },
+  {
+    id: 19,
+    question: "The proposal _____ by the committee next week.",
+    options: ["will review", "will be reviewed", "will have reviewed"],
+    correct: 1,
+    level: "Advanced"
+  },
+  {
+    id: 20,
+    question: "Not only _____ late, but he also forgot his presentation.",
+    options: ["he was", "was he", "he is"],
+    correct: 1,
+    level: "Proficient"
+  }
+];
+
 export default function Index() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeProgram, setActiveProgram] = useState('virtual');
+  const [testState, setTestState] = useState<TestState>('landing');
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState<Level>('Elementary');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    comments: '',
+    agreement: false
+  });
 
-  useEffect(() => {
-    setIsVisible(true);
-    
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const calculateResults = () => {
+    let correctAnswers = 0;
+    let levelScores: { [key in Level]: number } = {
+      'Elementary': 0,
+      'Pre-Intermediate': 0,
+      'Intermediate': 0,
+      'Upper-Intermediate': 0,
+      'Advanced': 0,
+      'Proficient': 0
+    };
 
-  const handleNavClick = (section: string) => {
-    console.log(`Navigating to: ${section}`);
-    const element = document.getElementById(section);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    questions.forEach((question) => {
+      if (answers[question.id] === question.correct) {
+        correctAnswers++;
+        levelScores[question.level]++;
+      }
+    });
+
+    setScore(correctAnswers);
+    
+    // Determine level based on performance
+    if (correctAnswers >= 18) setLevel('Proficient');
+    else if (correctAnswers >= 15) setLevel('Advanced');
+    else if (correctAnswers >= 12) setLevel('Upper-Intermediate');
+    else if (correctAnswers >= 9) setLevel('Intermediate');
+    else if (correctAnswers >= 6) setLevel('Pre-Intermediate');
+    else setLevel('Elementary');
+  };
+
+  const handleStartTest = () => {
+    setTestState('testing');
+    setCurrentQuestion(0);
+    setAnswers({});
+    setSelectedAnswer(null);
+  };
+
+  const handleAnswerSelect = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex);
+    setAnswers({ ...answers, [questions[currentQuestion].id]: answerIndex });
+  };
+
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(answers[questions[currentQuestion + 1].id] ?? null);
     }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+      setSelectedAnswer(answers[questions[currentQuestion - 1].id] ?? null);
+    }
+  };
+
+  const handleQuestionJump = (questionIndex: number) => {
+    setCurrentQuestion(questionIndex);
+    setSelectedAnswer(answers[questions[questionIndex].id] ?? null);
+  };
+
+  const handleFinishTest = () => {
+    calculateResults();
+    setTestState('result');
+  };
+
+  const handleNavigation = (section: string) => {
+    console.log(`Navigating to: ${section}`);
     setIsMenuOpen(false);
   };
 
-  const handleCTAClick = (action: string) => {
-    console.log(`CTA clicked: ${action}`);
-    switch (action) {
-      case 'start-learning':
-        alert('Welcome to Probadha! Starting your learning journey...');
-        break;
-      case 'demo':
-        alert('Demo coming soon! Stay tuned...');
-        break;
-      case 'get-started':
-        alert('Ready to get started? Let\'s begin your educational journey!');
-        break;
-      default:
-        console.log('Unknown action:', action);
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.name && formData.email && formData.phone && formData.agreement) {
+      alert('Thank you for your interest! We will contact you soon with course details.');
+      console.log('Form submitted:', formData);
+    } else {
+      alert('Please fill in all required fields and accept the agreement.');
     }
   };
 
-  const handleProgramClick = (program: string) => {
-    setActiveProgram(program);
-    console.log(`Selected program: ${program}`);
+  const getLevelColor = (levelName: Level) => {
+    const colors = {
+      'Elementary': 'bg-red-100 text-red-800 border-red-200',
+      'Pre-Intermediate': 'bg-orange-100 text-orange-800 border-orange-200',
+      'Intermediate': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      'Upper-Intermediate': 'bg-blue-100 text-blue-800 border-blue-200',
+      'Advanced': 'bg-green-100 text-green-800 border-green-200',
+      'Proficient': 'bg-purple-100 text-purple-800 border-purple-200'
+    };
+    return colors[levelName];
   };
 
-  const programs = [
-    {
-      id: 'virtual',
-      title: 'Virtual Class',
-      desc: 'Join online learning sessions for advanced AI learning experience',
-      icon: Camera,
-      gradient: 'from-yellow-400 to-orange-500',
-      bgColor: 'bg-yellow-400',
-      hoverColor: 'hover:bg-yellow-500',
-      iconBg: 'bg-white',
-      iconColor: 'text-blue-600'
-    },
-    {
-      id: 'scholarship',
-      title: 'Scholarship Program',
-      desc: 'Get financial aid for excellent students with scholarship benefits',
-      icon: GraduationCap,
-      gradient: 'from-blue-500 to-purple-600',
-      bgColor: 'bg-blue-500',
-      hoverColor: 'hover:bg-blue-600',
-      iconBg: 'bg-yellow-400',
-      iconColor: 'text-black'
-    },
-    {
-      id: 'monitoring',
-      title: 'Student Monitoring',
-      desc: 'Track progress and academic performance insights and educational monitoring',
-      icon: BarChart3,
-      gradient: 'from-pink-500 to-purple-600',
-      bgColor: 'bg-pink-500',
-      hoverColor: 'hover:bg-pink-600',
-      iconBg: 'bg-orange-400',
-      iconColor: 'text-white'
-    }
-  ];
+  const completedQuestions = Object.keys(answers).length;
 
   return (
-    <div className="min-h-screen bg-gray-900 overflow-x-hidden">
+    <div className="min-h-screen bg-orange-50">
       {/* Navigation */}
-      <nav className="bg-gray-900 text-white py-4 px-4 md:px-8 relative z-50 transition-all duration-300">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => handleNavClick('features')}
-              className="text-sm text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform"
-            >
-              Features
-            </button>
-            <button 
-              onClick={() => handleNavClick('programs')}
-              className="text-sm text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform"
-            >
-              Our Services
-            </button>
-          </div>
-          
-          <div className="text-2xl font-bold text-white cursor-pointer hover:scale-105 transition-transform duration-300">
-            PROBADHA
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => handleNavClick('about')}
-              className="text-sm text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform"
-            >
-              About Us
-            </button>
-            <button 
-              onClick={() => handleNavClick('contact')}
-              className="text-sm text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform"
-            >
-              Contact Us
-            </button>
-          </div>
-
-          <button
-            className="md:hidden text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-gray-800 border-t border-gray-700 py-4 animate-in slide-in-from-top duration-300">
-            <div className="flex flex-col space-y-4 px-4">
-              <button onClick={() => handleNavClick('features')} className="text-gray-300 hover:text-white text-left">Features</button>
-              <button onClick={() => handleNavClick('programs')} className="text-gray-300 hover:text-white text-left">Our Services</button>
-              <button onClick={() => handleNavClick('about')} className="text-gray-300 hover:text-white text-left">About Us</button>
-              <button onClick={() => handleNavClick('contact')} className="text-gray-300 hover:text-white text-left">Contact Us</button>
+      <nav className="bg-white shadow-sm border-b border-orange-200">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <div className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => handleNavigation('home')}
+                className="text-gray-700 hover:text-orange-600 transition-colors duration-300 flex items-center gap-2"
+              >
+                <Home className="w-4 h-4" />
+                Home
+              </button>
+              <button 
+                onClick={() => handleNavigation('about')}
+                className="text-gray-700 hover:text-orange-600 transition-colors duration-300 flex items-center gap-2"
+              >
+                <Info className="w-4 h-4" />
+                About
+              </button>
+              <button 
+                onClick={() => handleNavigation('programs')}
+                className="text-gray-700 hover:text-orange-600 transition-colors duration-300 flex items-center gap-2"
+              >
+                <BookOpen className="w-4 h-4" />
+                Programs/Courses
+              </button>
             </div>
+            
+            <div className="text-2xl font-bold text-orange-600">
+              English Level Test
+            </div>
+            
+            <div className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => handleNavigation('contact')}
+                className="text-gray-700 hover:text-orange-600 transition-colors duration-300 flex items-center gap-2"
+              >
+                <PhoneCall className="w-4 h-4" />
+                Contact/Support
+              </button>
+              <div className="text-sm text-gray-600">
+                📞 +1-800-123-4567
+              </div>
+            </div>
+
+            <button
+              className="md:hidden text-gray-700"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
-        )}
+
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 py-4 border-t border-orange-200">
+              <div className="flex flex-col space-y-4">
+                <button onClick={() => handleNavigation('home')} className="text-gray-700 hover:text-orange-600 text-left flex items-center gap-2">
+                  <Home className="w-4 h-4" /> Home
+                </button>
+                <button onClick={() => handleNavigation('about')} className="text-gray-700 hover:text-orange-600 text-left flex items-center gap-2">
+                  <Info className="w-4 h-4" /> About
+                </button>
+                <button onClick={() => handleNavigation('programs')} className="text-gray-700 hover:text-orange-600 text-left flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" /> Programs/Courses
+                </button>
+                <button onClick={() => handleNavigation('contact')} className="text-gray-700 hover:text-orange-600 text-left flex items-center gap-2">
+                  <PhoneCall className="w-4 h-4" /> Contact/Support
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
 
-      {/* Hero Section */}
-      <section id="hero" className="relative bg-gray-900 text-white overflow-hidden min-h-screen flex items-center">
-        {/* Enhanced Floating 3D Elements */}
-        <div className="absolute inset-0">
-          {/* Pencil/Pen - Top Left */}
-          <div className="absolute top-20 left-10 transform rotate-12 animate-bounce delay-100">
-            <div className="w-6 h-16 bg-gradient-to-b from-pink-400 to-pink-600 rounded-full relative shadow-lg">
-              <div className="w-4 h-4 bg-yellow-400 rounded-full absolute -top-2 left-1"></div>
-              <div className="w-3 h-3 bg-gray-800 rounded-full absolute -bottom-1 left-1.5"></div>
+      {/* Landing Page */}
+      {testState === 'landing' && (
+        <div className="container mx-auto px-4 py-12">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <div className="inline-block bg-orange-500 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 transform -rotate-2 shadow-lg">
+              Express-test
             </div>
-          </div>
-
-          {/* Globe - Top Right */}
-          <div className="absolute top-16 right-20 animate-spin-slow">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full relative shadow-xl">
-              <div className="absolute inset-2 border-2 border-white/30 rounded-full">
-                <div className="w-3 h-3 bg-green-400 rounded-full absolute top-1 left-1"></div>
-                <div className="w-2 h-2 bg-green-400 rounded-full absolute bottom-1 right-1"></div>
-                <div className="w-4 h-1 bg-green-400 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Purple Planet - Left Side */}
-          <div className="absolute top-40 left-20 animate-pulse">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full relative shadow-lg">
-              <div className="w-2 h-2 bg-purple-300 rounded-full absolute top-2 left-2"></div>
-              <div className="w-1 h-1 bg-purple-300 rounded-full absolute bottom-3 right-2"></div>
-            </div>
-          </div>
-
-          {/* Clock/Timer - Left Center */}
-          <div className="absolute top-60 left-32 animate-bounce delay-500">
-            <div className="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full border-4 border-orange-200 relative shadow-xl">
-              <div className="absolute inset-2 border border-white/50 rounded-full">
-                <div className="w-0.5 h-3 bg-white absolute top-1 left-1/2 transform -translate-x-1/2 origin-bottom"></div>
-                <div className="w-0.5 h-2 bg-white absolute top-2 left-1/2 transform -translate-x-1/2 origin-bottom rotate-90"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Book - Right Side */}
-          <div className="absolute top-80 right-16 transform -rotate-12 animate-bounce delay-700">
-            <div className="w-12 h-16 bg-gradient-to-r from-blue-500 to-blue-700 rounded-r-lg relative shadow-lg">
-              <div className="absolute left-0 top-0 w-1 h-full bg-blue-800 rounded-l"></div>
-              <div className="absolute inset-1 bg-blue-300/20 rounded-r">
-                <div className="w-full h-0.5 bg-white/30 mt-2"></div>
-                <div className="w-3/4 h-0.5 bg-white/30 mt-1"></div>
-                <div className="w-full h-0.5 bg-white/30 mt-1"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Lightning Bolt - Bottom Left */}
-          <div className="absolute bottom-40 left-16 transform rotate-12 animate-pulse delay-300">
-            <div className="w-8 h-12 relative">
-              <div className="absolute inset-0 bg-yellow-400 transform skew-x-12 rounded"></div>
-              <div className="absolute top-1 left-1 w-2 h-2 bg-yellow-200 rounded-full"></div>
-            </div>
-          </div>
-
-          {/* Small decorative elements */}
-          <div className="absolute top-32 left-1/3 w-3 h-3 bg-green-400 rounded-full animate-ping delay-1000"></div>
-          <div className="absolute bottom-60 right-1/3 w-4 h-4 bg-pink-400 rounded-lg transform rotate-45 animate-bounce delay-1200"></div>
-          <div className="absolute top-96 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse delay-800"></div>
-        </div>
-        
-        <div className="relative container mx-auto px-4 text-center z-10">
-          <h1 className={`text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-tight transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="mb-2">
-              <span className="text-white">CREATE NEW</span>
-            </div>
-            <div className="mb-2">
-              <span className="text-yellow-400 drop-shadow-lg">EXPERIENCE</span>{" "}
-              <span className="text-white">WITH</span>
-            </div>
-            <div className="mb-2">
-              <span className="text-white">WAYS OF</span>
-            </div>
-            <div>
-              <span className="text-white">PERFECT </span>
-              <span className="text-blue-400 drop-shadow-lg">LEARNING</span>
-            </div>
-          </h1>
-
-          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mt-12 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <Button 
-              onClick={() => handleCTAClick('start-learning')}
-              className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
-            >
-              <Play className="w-5 h-5 mr-2" />
-              Start Learning Now
-            </Button>
             
-            <Button 
-              onClick={() => handleCTAClick('demo')}
-              variant="outline" 
-              className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
-            >
-              <Eye className="w-5 h-5 mr-2" />
-              View Demo
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Special Programs Section */}
-      <section id="programs" className="bg-gray-900 text-white py-20 relative">
-        {/* Floating decorative elements for this section */}
-        <div className="absolute top-10 right-10 animate-bounce">
-          <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-            <div className="w-8 h-8 bg-white rounded-full opacity-80"></div>
-          </div>
-        </div>
-        
-        <div className="absolute top-20 right-32 transform rotate-12 animate-pulse">
-          <div className="w-12 h-16 bg-red-500 rounded-lg shadow-lg"></div>
-        </div>
-
-        <div className="container mx-auto px-4">
-          <div className={`text-center mb-16 relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4">
-              <span className="text-white">OUR SPECIAL </span>
-              <span className="text-blue-400">PROGRAMS</span>
-            </h2>
-            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black">
-              <span className="text-white">FOR YOUR </span>
-              <span className="bg-green-400 text-black px-6 py-3 rounded-full inline-block transform -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg">
-                EDUCATION
-              </span>
-            </h3>
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+              English Knowledge Level Test
+            </h1>
             
-            <p className="text-gray-400 mt-6 max-w-md mx-auto">
-              We provide special service for both and extra such as mentorship, virtual class, and student monitoring.
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Test your English level quickly and get a personalized recommendation.
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {programs.map((program, index) => {
-              const IconComponent = program.icon;
-              return (
-                <Card 
-                  key={program.id}
-                  className={`group bg-gradient-to-br ${program.gradient} border-none text-white relative overflow-hidden h-80 cursor-pointer transform hover:scale-105 hover:-translate-y-2 transition-all duration-300 shadow-xl hover:shadow-2xl animate-in slide-in-from-bottom duration-700`}
-                  style={{ animationDelay: `${index * 200}ms` }}
-                  onClick={() => handleProgramClick(program.id)}
-                >
-                  <CardContent className="p-8 h-full flex flex-col relative z-10">
-                    {/* 3D Icon Container */}
-                    <div className="mb-6">
-                      <div className={`w-20 h-20 ${program.iconBg} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg relative`}>
-                        <IconComponent className={`w-10 h-10 ${program.iconColor}`} />
-                        {/* 3D Shadow effect */}
-                        <div className="absolute -bottom-1 -right-1 w-20 h-20 bg-black/20 rounded-2xl -z-10"></div>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-auto">
-                      <h3 className="text-2xl font-bold mb-3 group-hover:text-yellow-100 transition-colors duration-300">
-                        {program.title}
-                      </h3>
-                      <p className="text-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                        {program.desc}
-                      </p>
-                    </div>
-                    
-                    {/* Decorative corner element */}
-                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-white/20 rounded-full opacity-60 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300"></div>
-                  </CardContent>
-                  
-                  {/* Floating elements on cards */}
-                  {index === 0 && (
-                    <div className="absolute -top-2 -left-2 w-6 h-6 bg-purple-500 rounded-full opacity-60 animate-bounce"></div>
-                  )}
-                  {index === 1 && (
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full opacity-60 animate-bounce delay-300"></div>
-                  )}
-                  {index === 2 && (
-                    <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-blue-400 rounded-full opacity-60 animate-bounce delay-500"></div>
-                  )}
-                  
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Easy to Use Section */}
-      <section id="features" className="bg-gray-900 text-white py-20 relative">
-        {/* Floating Earth/Globe */}
-        <div className="absolute top-20 right-20 animate-spin-slow">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full relative shadow-xl">
-            <div className="absolute inset-2 border-2 border-white/30 rounded-full">
-              <div className="w-3 h-3 bg-green-400 rounded-full absolute top-1 left-1"></div>
-              <div className="w-2 h-2 bg-green-400 rounded-full absolute bottom-1 right-1"></div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 relative">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight">
-              <span className="text-white">OUR PROGRAM IS </span>
-              <span className="bg-green-400 text-black px-6 py-3 rounded-full inline-block hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg">
-                EASY
-              </span>
-              <span className="text-white"> TO USE</span><br />
-              <span className="text-white">AND USEFUL FOR THE FUTURE</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            {/* Left Side - Interactive Program Selection */}
-            <div className="space-y-8">
-              <div className="flex flex-wrap gap-4">
-                {programs.map((program) => (
-                  <Button 
-                    key={program.id}
-                    onClick={() => handleProgramClick(program.id)}
-                    className={`${program.bgColor} text-white ${program.hoverColor} transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl ${
-                      activeProgram === program.id ? 'ring-4 ring-white/50 scale-105' : ''
-                    }`}
-                  >
-                    {program.title}
-                  </Button>
-                ))}
-              </div>
-              
-              <div className="bg-yellow-400 text-black p-8 rounded-2xl relative transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                <h3 className="text-3xl font-black mb-4">LEARNING VIRTUALLY EVERYWHERE.</h3>
-                <p className="text-lg opacity-80 mb-6 leading-relaxed">
-                  We Provide learning virtually for students everywhere and
-                  also provide recording which allows students distance their
-                  choice class.
-                </p>
-                
-                {/* "Totally Free" Badge */}
-                <div className="absolute -top-4 -right-4">
-                  <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold transform rotate-12 hover:rotate-6 hover:scale-105 transition-all duration-300 cursor-pointer animate-pulse shadow-lg">
-                    TOTALLY FREE
-                  </div>
-                </div>
-
-                {/* Decorative dots */}
-                <div className="absolute top-4 left-4 w-2 h-2 bg-orange-400 rounded-full"></div>
-                <div className="absolute top-6 left-8 w-1 h-1 bg-orange-400 rounded-full"></div>
-              </div>
+            <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md mx-auto mb-12">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">Test Features:</h3>
+              <ul className="space-y-3 text-left">
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span>Test is completely free</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span>20 questions total</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span>Detects your level accurately</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span>Get instant results</span>
+                </li>
+              </ul>
             </div>
 
-            {/* Right Side - Enhanced Interface Preview */}
-            <div className="relative">
-              <div className="bg-white rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-3xl">
-                {/* Browser-like Header */}
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                </div>
-                
-                <div className="bg-gray-100 rounded-2xl p-8 h-80 flex items-center justify-center relative overflow-hidden">
-                  {/* User Avatars Grid */}
-                  <div className="text-center">
-                    <div className="grid grid-cols-2 gap-6 mb-8">
-                      {[
-                        { color: 'bg-blue-500', delay: '0ms', avatar: '👩‍🎓' },
-                        { color: 'bg-green-500', delay: '100ms', avatar: '👨‍🎓' },
-                        { color: 'bg-purple-500', delay: '200ms', avatar: '👩‍💼' },
-                        { color: 'bg-pink-500', delay: '300ms', avatar: '👨‍💼' }
-                      ].map((item, index) => (
-                        <div 
-                          key={index}
-                          className={`w-20 h-20 ${item.color} rounded-full flex items-center justify-center cursor-pointer transform hover:scale-110 hover:rotate-12 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce text-2xl`}
-                          style={{ animationDelay: item.delay }}
-                        >
-                          <span className="text-white font-bold">{item.avatar}</span>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* Chat indicator */}
-                    <div className="flex items-center justify-center gap-2 text-gray-600">
-                      <MessageCircle className="w-8 h-8" />
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Floating "Totally Free" badge */}
-                  <div className="absolute bottom-4 right-4">
-                    <div className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold transform rotate-12 animate-pulse">
-                      TOTALLY FREE
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Enhanced Decorative Elements */}
-              <div className="absolute -top-8 -left-8 w-16 h-16 bg-blue-400 rounded-full opacity-70 animate-ping"></div>
-              <div className="absolute -bottom-8 -right-8 w-12 h-12 bg-purple-400 rounded-full opacity-60 animate-pulse"></div>
-              <div className="absolute top-10 -right-6 w-8 h-8 bg-yellow-400 rounded-lg transform rotate-45 opacity-50 animate-bounce delay-500"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <section id="about" className="bg-gray-100 text-black py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50"></div>
-        
-        {/* Enhanced Grid Background */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="grid grid-cols-12 gap-4 h-full">
-            {Array.from({ length: 60 }).map((_, i) => (
-              <div key={i} className="border border-gray-400 hover:border-gray-600 transition-colors duration-300"></div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative container mx-auto px-4 text-center">
-          <h2 className={`text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="mb-2">
-              <span className="text-pink-500">LET'S</span>{" "}
-              <span className="text-blue-500">UNLOCK</span>
-            </div>
-            <div className="mb-2">
-              <span className="text-black">YOUR </span>
-              <span className="text-blue-500">POTENTIAL</span>
-            </div>
-            <div>
-              <span className="text-black">WITH </span>
-              <span className="text-yellow-500 drop-shadow-lg">PROBADHA</span>
-            </div>
-          </h2>
-
-          {/* Enhanced Decorative Elements */}
-          <div className="absolute top-10 left-20 animate-bounce">
-            <div className="w-20 h-24 bg-yellow-400 rounded-lg transform rotate-12 hover:rotate-6 hover:scale-110 transition-all duration-300 cursor-pointer shadow-lg relative">
-              <div className="absolute top-1 left-1 w-3 h-3 bg-yellow-200 rounded-full"></div>
-              <div className="absolute bottom-1 right-1 w-2 h-2 bg-yellow-600 rounded-full"></div>
-            </div>
-          </div>
-          
-          <div className="absolute bottom-20 right-20 animate-pulse">
-            <div className="w-16 h-16 bg-blue-400 rounded-full hover:scale-110 transition-transform duration-300 cursor-pointer shadow-lg relative">
-              <div className="absolute inset-2 border-2 border-white rounded-full">
-                <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="absolute top-20 right-1/4 animate-spin-slow">
-            <div className="w-12 h-12 bg-pink-400 rounded-lg transform rotate-45 hover:rotate-90 hover:scale-125 transition-all duration-300 cursor-pointer shadow-lg"></div>
-          </div>
-
-          {/* Timer/Clock element */}
-          <div className="absolute bottom-32 left-1/4 animate-bounce delay-700">
-            <div className="w-16 h-16 bg-green-400 rounded-full border-4 border-green-200 relative shadow-xl">
-              <div className="absolute inset-2 border border-white rounded-full">
-                <Clock className="w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-              </div>
-            </div>
-          </div>
-
-          <div className={`flex justify-center mt-12 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <Button 
-              onClick={() => handleCTAClick('get-started')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 font-bold"
+              onClick={handleStartTest}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-6 text-xl rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
-              <CheckCircle className="w-6 h-6 mr-3" />
-              Get Started Now
+              <Play className="w-6 h-6 mr-3" />
+              Start Test
             </Button>
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer id="contact" className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold mb-4 hover:text-yellow-400 transition-colors duration-300 cursor-pointer">PROBADHA</h3>
-              <p className="text-gray-400 mb-4 leading-relaxed">
-                Copyright 2024 PROBADHA. All Rights Reserved.
-              </p>
-              <p className="text-gray-500 text-sm">
-                Transforming education with AI-powered learning solutions
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><button onClick={() => handleNavClick('about')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">About Us</button></li>
-                <li><button onClick={() => handleNavClick('features')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Features</button></li>
-                <li><button onClick={() => handleNavClick('programs')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Programs</button></li>
-                <li><button onClick={() => console.log('Pricing page')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Pricing</button></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Support</h4>
-              <ul className="space-y-2">
-                <li><button onClick={() => console.log('Contact form')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Contact Us</button></li>
-                <li><button onClick={() => console.log('Terms page')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Terms of Service</button></li>
-                <li><button onClick={() => console.log('Privacy page')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Privacy Policy</button></li>
-                <li><button onClick={() => console.log('Help center')} className="text-gray-400 hover:text-white transition-colors duration-300 hover:translate-x-2 transform">Help Center</button></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex justify-center mt-8">
-            <div className="flex gap-2">
-              {[0, 1, 2, 3].map((index) => (
-                <button
-                  key={index}
-                  onClick={() => console.log(`Page ${index + 1}`)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
-                    index === 2 ? 'bg-white shadow-lg' : 'bg-gray-600 hover:bg-gray-400'
-                  }`}
-                />
+          {/* Visual Level Map */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg mb-16">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">English Proficiency Levels</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { level: 'Elementary', description: 'Basic words and phrases', color: 'red' },
+                { level: 'Pre-Intermediate', description: 'Simple conversations', color: 'orange' },
+                { level: 'Intermediate', description: 'Daily communication', color: 'yellow' },
+                { level: 'Upper-Intermediate', description: 'Complex topics', color: 'blue' },
+                { level: 'Advanced', description: 'Fluent expression', color: 'green' },
+                { level: 'Proficient', description: 'Near-native level', color: 'purple' }
+              ].map((item, index) => (
+                <Card key={index} className={`border-2 border-${item.color}-200 hover:shadow-lg transition-all duration-300`}>
+                  <CardContent className="p-6 text-center">
+                    <div className={`w-16 h-16 bg-${item.color}-100 rounded-full flex items-center justify-center mx-auto mb-4`}>
+                      <div className={`w-8 h-8 bg-${item.color}-500 rounded-full`}></div>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.level}</h3>
+                    <p className="text-gray-600 text-sm">{item.description}</p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
+
+          {/* Business English Flow */}
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl p-8 text-center">
+            <h2 className="text-3xl font-bold mb-4">Ready for Business English?</h2>
+            <p className="text-xl mb-6">Advance your career with professional English skills</p>
+            <Button 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3"
+            >
+              Learn More About Our Courses
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Testing Interface */}
+      {testState === 'testing' && (
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {/* Question Interface */}
+            <div className="lg:col-span-3">
+              <Card className="shadow-lg">
+                <CardHeader className="bg-orange-500 text-white">
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="text-xl">
+                      Question {currentQuestion + 1}/20
+                    </CardTitle>
+                    <Badge variant="secondary" className="bg-white text-orange-500">
+                      {completedQuestions}/20 completed
+                    </Badge>
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="p-8">
+                  <h2 className="text-2xl font-semibold text-gray-800 mb-8">
+                    {questions[currentQuestion].question}
+                  </h2>
+                  
+                  <div className="space-y-4 mb-8">
+                    {questions[currentQuestion].options.map((option, index) => (
+                      <div 
+                        key={index}
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
+                          selectedAnswer === index 
+                            ? 'border-orange-500 bg-orange-50' 
+                            : 'border-gray-200 hover:border-orange-300 hover:bg-gray-50'
+                        }`}
+                        onClick={() => handleAnswerSelect(index)}
+                      >
+                        <label className="flex items-center gap-3 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="answer"
+                            value={index}
+                            checked={selectedAnswer === index}
+                            onChange={() => handleAnswerSelect(index)}
+                            className="w-5 h-5 text-orange-500"
+                          />
+                          <span className="text-lg">{option}</span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <Button 
+                      variant="outline" 
+                      onClick={handlePrevious}
+                      disabled={currentQuestion === 0}
+                      className="px-6 py-3"
+                    >
+                      Previous
+                    </Button>
+                    
+                    <div className="flex gap-4">
+                      {currentQuestion === questions.length - 1 ? (
+                        <Button 
+                          onClick={handleFinishTest}
+                          className="bg-green-500 hover:bg-green-600 text-white px-8 py-3"
+                          disabled={Object.keys(answers).length < questions.length}
+                        >
+                          Finish Test
+                        </Button>
+                      ) : (
+                        <Button 
+                          onClick={handleNext}
+                          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3"
+                        >
+                          Next
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* Question Navigator */}
+            <div className="lg:col-span-1">
+              <Card className="shadow-lg sticky top-8">
+                <CardHeader className="bg-gray-100">
+                  <CardTitle className="text-lg text-center">Question Navigator</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="grid grid-cols-4 gap-2">
+                    {questions.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleQuestionJump(index)}
+                        className={`w-12 h-12 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                          index === currentQuestion
+                            ? 'bg-orange-500 text-white shadow-md'
+                            : answers[questions[index].id] !== undefined
+                            ? 'bg-green-100 text-green-700 border-2 border-green-300'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-6 text-sm space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                      <span>Current</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-green-100 border-2 border-green-300 rounded"></div>
+                      <span>Answered</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-gray-100 rounded"></div>
+                      <span>Not answered</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Results Page */}
+      {testState === 'result' && (
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto">
+            <Card className="shadow-xl">
+              <CardHeader className="bg-gradient-to-r from-green-500 to-blue-600 text-white text-center py-8">
+                <CardTitle className="text-3xl mb-4">Test Results</CardTitle>
+                <div className="text-6xl font-bold mb-2">{score}/20</div>
+                <div className="text-xl">Correct Answers</div>
+              </CardHeader>
+              
+              <CardContent className="p-8 text-center">
+                <div className="mb-8">
+                  <div className="text-2xl font-semibold text-gray-800 mb-4">Your English Level:</div>
+                  <Badge className={`text-2xl px-6 py-3 ${getLevelColor(level)}`}>
+                    {level}
+                  </Badge>
+                </div>
+                
+                <div className="bg-gray-50 rounded-lg p-6 mb-8">
+                  <h3 className="text-xl font-semibold mb-4">Level Description:</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {level === 'Elementary' && "You understand basic English words and phrases. Focus on building vocabulary and basic grammar."}
+                    {level === 'Pre-Intermediate' && "You can handle simple conversations and everyday topics. Continue practicing with more complex sentences."}
+                    {level === 'Intermediate' && "You communicate well in most daily situations. Work on advanced grammar and expand your vocabulary."}
+                    {level === 'Upper-Intermediate' && "You handle complex topics confidently. Focus on fluency and natural expression."}
+                    {level === 'Advanced' && "You express yourself fluently and accurately. Polish your skills for professional contexts."}
+                    {level === 'Proficient' && "Excellent! You have near-native proficiency. Consider specialized courses for specific goals."}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <Button 
+                    onClick={() => setTestState('registration')}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg w-full"
+                  >
+                    <GraduationCap className="w-5 h-5 mr-3" />
+                    Enroll in Course
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setTestState('landing')}
+                    className="w-full px-8 py-4"
+                  >
+                    <RotateCcw className="w-5 h-5 mr-3" />
+                    Take Test Again
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {/* Registration Form */}
+      {testState === 'registration' && (
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto">
+            <Card className="shadow-xl">
+              <CardHeader className="bg-orange-500 text-white text-center py-6">
+                <CardTitle className="text-2xl">Get Detailed Results & Enroll in Course</CardTitle>
+                <p className="text-orange-100 mt-2">Fill in your details to receive personalized recommendations</p>
+              </CardHeader>
+              
+              <CardContent className="p-8">
+                <form onSubmit={handleFormSubmit} className="space-y-6">
+                  <div>
+                    <Label htmlFor="name" className="text-base font-semibold">
+                      Full Name *
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="mt-2 p-3 text-base"
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="email" className="text-base font-semibold">
+                      Email Address *
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="mt-2 p-3 text-base"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="phone" className="text-base font-semibold">
+                      Phone Number *
+                    </Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="mt-2 p-3 text-base"
+                      placeholder="Enter your phone number"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="comments" className="text-base font-semibold">
+                      Additional Comments (Optional)
+                    </Label>
+                    <Textarea
+                      id="comments"
+                      value={formData.comments}
+                      onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
+                      className="mt-2 p-3 text-base"
+                      placeholder="Any specific goals or questions about the course?"
+                      rows={4}
+                    />
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox
+                      id="agreement"
+                      checked={formData.agreement}
+                      onCheckedChange={(checked) => setFormData({ ...formData, agreement: !!checked })}
+                      className="mt-1"
+                    />
+                    <Label htmlFor="agreement" className="text-sm text-gray-600 leading-relaxed">
+                      I agree to receive course information and updates via email and phone. 
+                      I understand my information will be used to provide personalized English learning recommendations. *
+                    </Label>
+                  </div>
+                  
+                  <Button 
+                    type="submit"
+                    className="w-full bg-green-500 hover:bg-green-600 text-white py-4 text-lg"
+                    disabled={!formData.name || !formData.email || !formData.phone || !formData.agreement}
+                  >
+                    <Send className="w-5 h-5 mr-3" />
+                    Submit Details & Get Course Info
+                  </Button>
+                </form>
+                
+                <div className="mt-8 text-center">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setTestState('result')}
+                    className="px-6 py-3"
+                  >
+                    Back to Results
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {/* Contact Info Footer */}
+      <footer className="bg-gray-800 text-white py-8 mt-16">
+        <div className="container mx-auto px-4 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
+              <div className="space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                  <PhoneCall className="w-4 h-4" />
+                  <span>+1-800-123-4567</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  <span>info@englishtest.com</span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
+              <div className="space-y-2">
+                <button onClick={() => handleNavigation('about')} className="block text-gray-300 hover:text-white transition-colors">About Us</button>
+                <button onClick={() => handleNavigation('programs')} className="block text-gray-300 hover:text-white transition-colors">Our Programs</button>
+                <button onClick={() => handleNavigation('contact')} className="block text-gray-300 hover:text-white transition-colors">Support</button>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
+              <div className="flex justify-center space-x-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-500 transition-colors">
+                  <span className="text-sm font-bold">f</span>
+                </div>
+                <div className="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-300 transition-colors">
+                  <span className="text-sm font-bold">t</span>
+                </div>
+                <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-500 transition-colors">
+                  <span className="text-sm font-bold">y</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-700 mt-8 pt-8">
+            <p className="text-gray-400">
+              © 2024 English Level Test. All rights reserved. 
+              Test your English level and advance your career today!
+            </p>
+          </div>
         </div>
       </footer>
-
-      {/* Custom Styles */}
-      <style jsx>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 8s linear infinite;
-        }
-        .hover\\:shadow-3xl:hover {
-          box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
-        }
-      `}</style>
     </div>
   );
 }
