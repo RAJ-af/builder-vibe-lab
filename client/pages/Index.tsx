@@ -124,8 +124,11 @@ export default function Index() {
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-600 mb-8 font-medium">
+              <p className="text-xl md:text-2xl text-gray-600 mb-4 font-medium">
                 Personalized study plans that don't suck.
+              </p>
+              <p className="text-gray-500 mb-8">
+                Actually useful stuff, not some random gyaan.
               </p>
               
               <Button
@@ -234,6 +237,9 @@ export default function Index() {
                 <CardTitle className="text-2xl md:text-3xl font-bold">
                   {quizQuestions[currentQuestion].question}
                 </CardTitle>
+                <p className="text-purple-100 text-sm mt-2">
+                  {currentQuestion === 0 ? 'Honest rehna bhai, koi judge nahi kar raha.' : 'Almost done, bas ek aur sawal.'}
+                </p>
                 <div className="flex justify-center mt-4">
                   {quizQuestions.map((_, index) => (
                     <div 
@@ -308,8 +314,11 @@ export default function Index() {
                 <CardTitle className="text-3xl md:text-4xl font-bold mb-4">
                   You're a {getResultLevel().title}
                 </CardTitle>
-                <p className="text-xl opacity-90">
+                <p className="text-xl opacity-90 mb-2">
                   {getResultLevel().desc}
+                </p>
+                <p className="text-blue-100 text-sm">
+                  Sach mein, ye level solid hai. Ab bas maintain karna hai.
                 </p>
               </CardHeader>
               
@@ -318,6 +327,9 @@ export default function Index() {
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
                     Next move? Download your study plan and start dominating.
                   </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Dekh bhai, plan ready hai. Bas tu follow kar.
+                  </p>
                   <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
                     <div>✅ Personalized AI recommendations</div>
                     <div>✅ Daily study schedule</div>
@@ -356,6 +368,9 @@ export default function Index() {
                 <CardTitle className="text-2xl md:text-3xl font-bold">
                   No time to waste. Login here.
                 </CardTitle>
+                <p className="text-purple-100 text-sm mt-2">
+                  One click mein ho jayega, tension mat le.
+                </p>
               </CardHeader>
               
               <CardContent className="p-8">
