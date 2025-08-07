@@ -21,7 +21,11 @@ import {
   Users,
   ArrowRight,
   Play,
-  CheckCircle
+  CheckCircle,
+  GraduationCap,
+  BarChart3,
+  Monitor,
+  Menu
 } from "lucide-react";
 
 export default function Index() {
@@ -31,197 +35,273 @@ export default function Index() {
     setIsVisible(true);
   }, []);
 
-  const features = [
-    { icon: "📚", title: "Ask AI Questions", desc: "Get instant answers to any study doubt" },
-    { icon: "📷", title: "Scan Doubts", desc: "Just click a photo and get solutions" },
-    { icon: "📄", title: "Upload Books → Get Notes", desc: "Turn textbooks into smart notes automatically" },
-    { icon: "⏱", title: "Pomodoro Timer & XP", desc: "Study smart with rewards and gamification" },
-    { icon: "📲", title: "Login via WhatsApp/Google/Telegram", desc: "Easy login with your favorite apps" },
-    { icon: "📊", title: "Progress Tracker & Leaderboard", desc: "Compete with friends and track growth" },
-    { icon: "🌐", title: "Hindi/Local Language Support", desc: "Study in your comfortable language" },
-    { icon: "🎮", title: "Games, Spin-n-Win, Badges", desc: "Make learning fun with rewards" },
-    { icon: "🔄", title: "Fun Mode: Memes, Reels, Posts", desc: "Educational content that's actually fun" }
-  ];
-
-  const benefits = [
-    { icon: <Zap className="w-8 h-8" />, title: "Instant Learning", desc: "Get answers in seconds, not hours" },
-    { icon: <Target className="w-8 h-8" />, title: "Personalized Study", desc: "AI adapts to your learning style" },
-    { icon: <Award className="w-8 h-8" />, title: "Gamified Progress", desc: "Earn XP, badges, and rewards" },
-    { icon: <Users className="w-8 h-8" />, title: "Community Learning", desc: "Learn together with classmates" }
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-skyblue-50 to-peach-50">
+    <div className="min-h-screen bg-gray-900">
+      {/* Navigation */}
+      <nav className="bg-gray-900 text-white py-4 px-4 md:px-8">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-8">
+            <span className="text-sm text-gray-300">Features</span>
+            <span className="text-sm text-gray-300">Our Services</span>
+          </div>
+          
+          <div className="text-2xl font-bold text-white">
+            PROBADHA
+          </div>
+          
+          <div className="flex items-center space-x-8">
+            <span className="text-sm text-gray-300">About Us</span>
+            <span className="text-sm text-gray-300">Contact Us</span>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 via-skyblue-400/20 to-peach-400/20"></div>
-        <div className="relative container mx-auto px-4 py-12 md:py-20">
-          <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            {/* Animated Icons */}
-            <div className="flex justify-center items-center gap-4 mb-8">
-              <div className="animate-bounce delay-100">
-                <MessageCircle className="w-8 h-8 md:w-12 md:h-12 text-purple-500" />
+      <section className="relative bg-gray-900 text-white overflow-hidden">
+        <div className="absolute inset-0">
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-10 w-16 h-16 bg-yellow-400 rounded-lg transform rotate-12 opacity-80"></div>
+          <div className="absolute top-32 right-20 w-12 h-12 bg-blue-400 rounded-full opacity-70"></div>
+          <div className="absolute bottom-40 left-20 w-8 h-8 bg-pink-400 rounded-full opacity-60"></div>
+          <div className="absolute top-40 left-1/4 w-6 h-6 bg-green-400 rounded-lg transform rotate-45 opacity-50"></div>
+          <div className="absolute bottom-60 right-1/4 w-10 h-10 bg-purple-400 rounded-lg transform -rotate-12 opacity-60"></div>
+        </div>
+        
+        <div className="relative container mx-auto px-4 py-20 md:py-32 text-center">
+          {/* Floating Icons */}
+          <div className="flex justify-center items-center gap-8 mb-12 relative">
+            <div className="absolute -top-10 -left-20 transform rotate-12">
+              <div className="w-16 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded opacity-80"></div>
               </div>
-              <div className="animate-bounce delay-200">
-                <BookOpen className="w-10 h-10 md:w-16 md:h-16 text-skyblue-500" />
+            </div>
+            
+            <div className="absolute -top-8 right-10 transform -rotate-12">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                <Globe className="w-6 h-6 text-white" />
               </div>
-              <div className="animate-bounce delay-300">
-                <Brain className="w-8 h-8 md:w-12 md:h-12 text-peach-500" />
+            </div>
+            
+            <div className="absolute top-16 -right-16 transform rotate-45">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center">
+                <Brain className="w-8 h-8 text-white" />
               </div>
-              <div className="animate-bounce delay-400">
-                <Timer className="w-8 h-8 md:w-12 md:h-12 text-purple-500" />
+            </div>
+            
+            <div className="absolute -bottom-8 -left-10 transform -rotate-45">
+              <div className="w-16 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
+            <span className="text-white">CREATE NEW</span><br />
+            <span className="text-yellow-400">EXPERIENCE</span> <span className="text-white">WITH</span><br />
+            <span className="text-white">WAYS OF</span><br />
+            <span className="text-white">PERFECT </span>
+            <span className="text-blue-400">LEARNING</span>
+          </h1>
+        </div>
+      </section>
+
+      {/* Special Programs Section */}
+      <section className="bg-gray-900 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 relative">
+            <div className="absolute top-0 right-20">
+              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded-full"></div>
+              </div>
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-white">OUR SPECIAL </span>
+              <span className="text-blue-400">PROGRAMS</span>
+            </h2>
+            <h3 className="text-4xl md:text-5xl font-bold">
+              <span className="text-white">FOR YOUR </span>
+              <span className="bg-green-400 text-black px-4 py-2 rounded-full inline-block transform -rotate-2">EDUCATION</span>
+            </h3>
+            
+            <div className="absolute top-8 right-4">
+              <div className="w-12 h-16 bg-red-500 rounded-lg transform rotate-12"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Virtual Class Card */}
+            <Card className="bg-gradient-to-br from-yellow-400 to-orange-500 border-none text-black relative overflow-hidden h-80">
+              <CardContent className="p-8 h-full flex flex-col">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                    <Camera className="w-8 h-8 text-black" />
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold mb-3">Virtual Class</h3>
+                  <p className="text-sm opacity-80">
+                    Join online learning sessions for advanced
+                    AI learning experience
+                  </p>
+                </div>
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-purple-500 rounded-full opacity-60"></div>
+              </CardContent>
+            </Card>
+
+            {/* Scholarship Program Card */}
+            <Card className="bg-gradient-to-br from-blue-500 to-purple-600 border-none text-white relative overflow-hidden h-80">
+              <CardContent className="p-8 h-full flex flex-col">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                    <GraduationCap className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold mb-3">Scholarship Program</h3>
+                  <p className="text-sm opacity-80">
+                    Get financial aid for excellent students
+                    with scholarship benefits
+                  </p>
+                </div>
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-yellow-400 rounded-full opacity-60"></div>
+              </CardContent>
+            </Card>
+
+            {/* Student Monitoring Card */}
+            <Card className="bg-gradient-to-br from-pink-500 to-purple-600 border-none text-white relative overflow-hidden h-80">
+              <CardContent className="p-8 h-full flex flex-col">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                    <BarChart3 className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-2xl font-bold mb-3">Student Monitoring</h3>
+                  <p className="text-sm opacity-80">
+                    Track progress and academic performance
+                    insights and educational monitoring
+                  </p>
+                </div>
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-400 rounded-full opacity-60"></div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Easy to Use Section */}
+      <section className="bg-gray-900 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 relative">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">
+              <span className="text-white">OUR PROGRAM IS </span>
+              <span className="bg-green-400 text-black px-4 py-2 rounded-full inline-block">EASY</span>
+              <span className="text-white"> TO USE</span><br />
+              <span className="text-white">AND USEFUL FOR THE FUTURE</span>
+            </h2>
+            
+            <div className="absolute top-0 right-10">
+              <div className="w-12 h-12 bg-blue-400 rounded-full"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+            {/* Left Side - Features */}
+            <div className="space-y-8">
+              <div className="flex gap-4">
+                <Button className="bg-yellow-400 text-black hover:bg-yellow-500">Virtual Class</Button>
+                <Button className="bg-blue-500 text-white hover:bg-blue-600">Scholarship Program</Button>
+                <Button className="bg-pink-500 text-white hover:bg-pink-600">Student Monitoring</Button>
+              </div>
+              
+              <div className="bg-yellow-400 text-black p-8 rounded-2xl relative">
+                <h3 className="text-3xl font-bold mb-4">LEARNING VIRTUALLY EVERYWHERE.</h3>
+                <p className="text-lg opacity-80 mb-6">
+                  We Provide learning virtually for students everywhere and
+                  also provide recording which allows students distance their
+                  choice class.
+                </p>
+                
+                <div className="absolute -top-4 -right-4">
+                  <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold transform rotate-12">
+                    TOTALLY FREE
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Main Title */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-purple-600 via-skyblue-600 to-peach-500 bg-clip-text text-transparent mb-4">
-              Probadha
-            </h1>
-            
-            {/* Tagline */}
-            <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 mb-8 font-medium">
-              Your AI Study Buddy ✨
-            </p>
-            
-            {/* Subtext */}
-            <p className="text-base md:text-lg text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Transform your Class 9 studies with AI-powered learning. Get instant doubt solving, 
-              personalized notes, and gamified progress tracking.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-purple-500 to-skyblue-500 hover:from-purple-600 hover:to-skyblue-600 text-white px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Play className="w-5 h-5 mr-2" />
-                Start Learning
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-purple-400 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Smartphone className="w-5 h-5 mr-2" />
-                Login with WhatsApp
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="lg"
-                className="text-gray-600 hover:text-purple-600 px-8 py-6 text-lg rounded-2xl transition-all duration-300"
-              >
-                View Demo
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+            {/* Right Side - Interface Preview */}
+            <div className="relative">
+              <div className="bg-white rounded-3xl p-6 shadow-2xl">
+                <div className="bg-gray-100 rounded-2xl p-6 h-80 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                    </div>
+                    <Monitor className="w-12 h-12 text-gray-600 mx-auto" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative Elements */}
+              <div className="absolute -top-8 -left-8 w-16 h-16 bg-blue-400 rounded-full opacity-70"></div>
+              <div className="absolute -bottom-8 -right-8 w-12 h-12 bg-purple-400 rounded-full opacity-60"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Probadha Section */}
-      <section className="py-16 md:py-24 bg-white/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-              Why Choose Probadha? 🚀
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experience the future of learning with AI-powered tools designed specifically for Class 9 students
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gradient-to-br from-white to-purple-50/50 border-purple-200">
-                <CardContent className="p-6 text-center">
-                  <div className="text-purple-500 mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
-                    {benefit.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">{benefit.title}</h3>
-                  <p className="text-gray-600">{benefit.desc}</p>
-                </CardContent>
-              </Card>
+      {/* Final CTA Section */}
+      <section className="bg-gray-100 text-black py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50"></div>
+        
+        {/* Decorative Grid */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="grid grid-cols-12 gap-4 h-full">
+            {Array.from({ length: 60 }).map((_, i) => (
+              <div key={i} className="border border-gray-300"></div>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-skyblue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-              Amazing Features 🎯
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Everything you need to excel in your studies, all in one powerful app
-            </p>
+        <div className="relative container mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            <span className="text-pink-500">LET'S</span> <span className="text-blue-500">UNLOCK</span><br />
+            <span className="text-black">YOUR </span>
+            <span className="text-blue-500">POTENTIAL</span><br />
+            <span className="text-black">WITH </span>
+            <span className="text-yellow-500">PROBADHA</span>
+          </h2>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-10 left-20">
+            <div className="w-16 h-20 bg-yellow-400 rounded-lg transform rotate-12"></div>
+          </div>
+          
+          <div className="absolute bottom-20 right-20">
+            <div className="w-12 h-12 bg-blue-400 rounded-full"></div>
+          </div>
+          
+          <div className="absolute top-20 right-1/4">
+            <div className="w-8 h-8 bg-pink-400 rounded-lg transform rotate-45"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/80 backdrop-blur-sm border-skyblue-200">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
-                      {feature.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
-                      <p className="text-gray-600 text-sm">{feature.desc}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-purple-600 via-skyblue-500 to-peach-400">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              Ready to Transform Your Studies? 📚✨
-            </h2>
-            <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-              Join thousands of Class 9 students who are already excelling with Probadha's AI-powered learning platform
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <Button 
-                size="lg" 
-                className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold"
-              >
-                <CheckCircle className="w-5 h-5 mr-2" />
-                Start Learning Now
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 px-8 py-6 text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Smartphone className="w-5 h-5 mr-2" />
-                Quick WhatsApp Login
-              </Button>
-            </div>
-
-            <div className="flex justify-center items-center gap-6 text-white/80">
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 fill-current" />
-                <span>4.9/5 Rating</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                <span>50K+ Students</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Heart className="w-5 h-5 fill-current" />
-                <span>Loved by Teachers</span>
-              </div>
-            </div>
+          <div className="flex justify-center mt-12">
+            <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg rounded-xl">
+              Get Started Now
+            </Button>
           </div>
         </div>
       </section>
@@ -230,54 +310,39 @@ export default function Index() {
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand */}
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-skyblue-400 bg-clip-text text-transparent mb-4">
-                Probadha
-              </h3>
+              <h3 className="text-2xl font-bold mb-4">PROBADHA</h3>
               <p className="text-gray-400 mb-4 leading-relaxed">
-                Your AI Study Buddy for Class 9. Study smarter, not harder ✨
+                Copyright 2024 PROBADHA. All Rights Reserved.
               </p>
-              <div className="flex gap-4">
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-                  <MessageCircle className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-                  <Globe className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-                  <Smartphone className="w-5 h-5" />
-                </Button>
-              </div>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">How It Works</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Programs</a></li>
               </ul>
             </div>
 
-            {/* Support */}
             <div>
               <h4 className="text-lg font-semibold mb-4">Support</h4>
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400">
-              © 2024 Probadha. Made with ❤️ for Class 9 students. Study smarter, not harder ✨
-            </p>
+          <div className="flex justify-center mt-8">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
+              <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
+              <div className="w-3 h-3 bg-white rounded-full"></div>
+              <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
+            </div>
           </div>
         </div>
       </footer>
