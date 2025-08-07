@@ -498,6 +498,102 @@ export default function Index() {
         </div>
       </footer>
 
+      {/* Instagram Popup */}
+      {showInstaPopup && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform animate-bounce">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Instagram className="w-10 h-10 text-white" />
+              </div>
+
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Hold Up Bro!
+              </h3>
+
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                Insta abhi active nahi hai bhai, thoda pad le fir scroll maarna.
+              </p>
+
+              <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-4 mb-6">
+                <p className="text-sm text-gray-700">
+                  Studies ke baad Instagram chalayenge. Abhi focus kar apne goals pe.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => setShowInstaPopup(false)}
+                  className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white rounded-xl py-3"
+                >
+                  Samjh gaya bro
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowInstaPopup(false);
+                    setAppState('quiz');
+                  }}
+                  className="flex-1 border-2 border-purple-300 text-purple-600 hover:bg-purple-50 rounded-xl py-3"
+                >
+                  Padhai karte hai
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Discord Popup */}
+      {showDiscordPopup && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform animate-bounce">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <MessageSquare className="w-10 h-10 text-white" />
+              </div>
+
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Discord Server Rules
+              </h3>
+
+              <p className="text-lg text-gray-600 mb-4 leading-relaxed">
+                Join karle Discord par, lekin bakchodi karega toh ban ho jayega bro.
+              </p>
+
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-6">
+                <h4 className="font-semibold text-gray-800 mb-2">Quick Rules:</h4>
+                <ul className="text-sm text-gray-700 text-left space-y-1">
+                  <li>• Respectful rehna</li>
+                  <li>• Study discussions welcome</li>
+                  <li>• No spam or nonsense</li>
+                  <li>• Help karna ek dusre ko</li>
+                </ul>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => setShowDiscordPopup(false)}
+                  variant="outline"
+                  className="flex-1 border-2 border-gray-300 text-gray-600 hover:bg-gray-50 rounded-xl py-3"
+                >
+                  Abhi nahi
+                </Button>
+                <Button
+                  onClick={() => {
+                    window.open('https://discord.gg/himanshubhatnagar', '_blank');
+                    setShowDiscordPopup(false);
+                  }}
+                  className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl py-3"
+                >
+                  Join Discord
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Custom Animations */}
       <style>{`
         @keyframes fade-in-up {
