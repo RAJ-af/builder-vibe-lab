@@ -501,7 +501,7 @@ export default function Index() {
       {/* Instagram Popup */}
       {showInstaPopup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform animate-bounce">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform">
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Instagram className="w-10 h-10 text-white" />
@@ -547,7 +547,7 @@ export default function Index() {
       {/* Discord Popup */}
       {showDiscordPopup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform animate-bounce">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform">
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <MessageSquare className="w-10 h-10 text-white" />
