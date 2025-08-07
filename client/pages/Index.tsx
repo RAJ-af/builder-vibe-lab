@@ -112,11 +112,6 @@ export default function Index() {
               AI-Powered Study Buddy
             </div>
 
-            <div className="bg-white/90 backdrop-blur-sm rounded-xl px-6 py-3 mb-6 inline-block shadow-lg animate-pulse">
-              <p className="text-sm font-medium text-gray-700">
-                🏫 <span className="text-purple-600 font-semibold">Lal Chand Sharma Higher Secondary School</span>
-              </p>
-            </div>
               
               <h1 className="text-5xl md:text-7xl font-black text-gray-800 mb-6 leading-tight animate-fade-in-up">
                 Your AI Study Buddy.
@@ -490,9 +485,12 @@ export default function Index() {
           
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
             <p className="text-gray-500 flex items-center justify-center gap-2">
-              © 2024 ProBadha. Built with 
+              © 2024 ProBadha. Built with
               <Heart className="w-4 h-4 text-red-400" />
               for students who want to level up.
+            </p>
+            <p className="text-gray-400 text-sm mt-2">
+              Lal Chand Sharma Higher Secondary School
             </p>
           </div>
         </div>
@@ -581,7 +579,7 @@ export default function Index() {
                 </Button>
                 <Button
                   onClick={() => {
-                    window.open('https://discord.gg/himanshubhatnagar', '_blank');
+                    window.open('https://discord.gg/v2JFGwED', '_blank');
                     setShowDiscordPopup(false);
                   }}
                   className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl py-3"
