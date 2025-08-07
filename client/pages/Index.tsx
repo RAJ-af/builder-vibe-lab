@@ -443,7 +443,7 @@ export default function Index() {
             </a>
 
             <button
-              onClick={() => console.log('Privacy Policy')}
+              onClick={() => window.location.href = '/privacy-policy'}
               className="text-gray-400 hover:text-green-400 transition-colors flex items-center justify-center gap-2 font-medium transform hover:scale-110 duration-300"
             >
               <FileText className="w-5 h-5" />
